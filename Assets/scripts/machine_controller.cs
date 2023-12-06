@@ -75,4 +75,8 @@ public class machine_controller : MonoBehaviour
             
             
         }
+    public void a_mole_got_hit(int index){
+        chosen_mole_array[index] = 0;
+        
+    }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class hammer : MonoBehaviour
 {
@@ -10,7 +11,8 @@ public class hammer : MonoBehaviour
 
     void Start()
     {
-    m_MainCamera = Camera.main;
+        m_MainCamera = Camera.main;
+        HideCursor();
     }
 
     // Update is called once per frame
@@ -20,5 +22,33 @@ public class hammer : MonoBehaviour
         
         mousePos.z = -m_MainCamera.transform.position.z;
         transform.position = m_MainCamera.ScreenToWorldPoint(mousePos);
+
+        if(Input.GetMouseButtonDown(0) && SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            Score.prevScoreVal += 1;
+
+        }
+
+
+
+        if (Score.scoreVal <= Score.prevScoreVal)
+        {
+            lost();
+        }
+    }
+
+    void HideCursor()
+    {
+        Cursor.visible = false;
+    }
+
+    void showCursor()
+    {
+        Cursor.visible = true;
+    }
+    void lost()
+    {
+        showCursor();
+        SceneManager.LoadScene(2);
     }
 }

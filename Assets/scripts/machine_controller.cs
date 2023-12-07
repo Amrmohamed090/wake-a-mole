@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
+
 public class machine_controller : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -29,6 +31,7 @@ public class machine_controller : MonoBehaviour
         timerEnded();
 
         }
+        
     }
     void AddOnesWithProbability()
     {
@@ -79,4 +82,5 @@ public class machine_controller : MonoBehaviour
         chosen_mole_array[index] = 0;
         
     }
+
 }

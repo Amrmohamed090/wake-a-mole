@@ -89,6 +89,6 @@ public class singlemole : MonoBehaviour
     {
         showCursor();
         lostFlag = false;
-        SceneManager.LoadScene(2);
+        // Handling the lost condition
     }
 }

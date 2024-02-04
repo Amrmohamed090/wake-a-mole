@@ -49,6 +49,6 @@ public class hammer : MonoBehaviour
     void lost()
     {
         showCursor();
-        SceneManager.LoadScene(2);
+        // Handling the lost condition
     }
 }

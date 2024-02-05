@@ -11,6 +11,8 @@ public class singlemole : MonoBehaviour
     public int singlemole_index=1;
     public float downY;
     public float upY;
+
+    [SerializeField] private float upDistanceOffset = 0.5f;
     public bool got_hit_bool = false;
     public bool lostFlag = false;
 
@@ -22,7 +24,7 @@ public class singlemole : MonoBehaviour
     {
         machineController = GameObject.FindObjectOfType<machine_controller>();
         downY = transform.position.y;
-        upY = downY + 1.4f;
+        upY = downY + upDistanceOffset;
         ;
     }
 

@@ -14,11 +14,20 @@ public class singlemole : MonoBehaviour
 
     [SerializeField] private float upDistanceOffset = 0.5f;
     public bool got_hit_bool = false;
-    public bool lostFlag = false;
+    static bool lostFlag = false;
+
+    public GameObject lefthammer;
+    public GameObject righthammer;
+    public GameObject mole;
+
+    public bool hitable = false;
+    private readonly Color[] colors = { new Color(0.6f, 0.4f, 0.2f), Color.blue, Color.yellow };
+    public GameObject moleBody;
+
+    private Color currentColor;
 
 
-
-    [SerializeField] private float speed = 2.0f; //speed where the moles go up and down
+    [SerializeField] private float speed = .5f; //speed where the moles go up and down
   
     void Start()
     {
@@ -33,7 +42,6 @@ public class singlemole : MonoBehaviour
     {
         Move();
 
- 
     }
 
     void Move(){
@@ -42,20 +50,21 @@ public class singlemole : MonoBehaviour
         if (machineController.chosen_mole_array[singlemole_index] ==1 && Mathf.Abs(transform.position.y- upY) > 0.02f && !lostFlag)
         {
             //go up
-            
             transform.Translate(0,Time.deltaTime *speed , 0);
             got_hit_bool = false;
-            
-            
+            if (!hitable) {
+                hitable = true;
+                SetRandomColor();
+            }
         }
        
         else if (machineController.chosen_mole_array[singlemole_index] ==0  && Mathf.Abs(transform.position.y-downY) > 0.02f){
             //go down
-
-            if (!got_hit_bool)
+            currentColor = moleBody.GetComponent<Renderer>().material.color;
+            if (!got_hit_bool && currentColor != colors[2])
             {
                 if (SceneManager.GetActiveScene().buildIndex == 1)
-                    lostFlag = true;
+                    //lostFlag = true;
                 transform.Translate(0, -Time.deltaTime * speed, 0);
                 
             }
@@ -67,30 +76,52 @@ public class singlemole : MonoBehaviour
         }
         else if(lostFlag)
         {
-            lost();
-        }
-    }
-    void OnMouseDown(){
-
-        //here you can track the hitted mole
-        if (SceneManager.GetActiveScene().buildIndex == 1)
-        {
-            print(singlemole_index);
-            machineController.a_mole_got_hit(singlemole_index);
-            got_hit_bool = true;
-            Score.scoreVal += 1;
-
+            Lost();
         }
     }
 
-    void showCursor()
+    public void Lost()
     {
-        Cursor.visible = true;
-    }
-    public void lost()
-    {
-        showCursor();
-        lostFlag = false;
+
         // Handling the lost condition
     }
+
+    private void HandelHit()
+    {
+        Score.scoreVal += 1;
+        got_hit_bool = true;
+        machineController.a_mole_got_hit(singlemole_index);
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        bool collisionEvent = ((collision.gameObject == lefthammer || collision.gameObject == righthammer) || collision.gameObject == mole);
+
+        if (collisionEvent && hitable)
+        {
+            hitable = false;
+            currentColor = moleBody.GetComponent<Renderer>().material.color;
+            bool rightHandWithRightColor = (collision.gameObject == lefthammer && currentColor == colors[0]) || (collision.gameObject == righthammer && currentColor == colors[1]);
+
+            if (rightHandWithRightColor)
+            {
+                HandelHit();
+            }
+            else
+            {
+                //lostFlag = true;
+            }
+
+        }
+    }
+
+    public void SetRandomColor()
+    {
+        Renderer renderer = moleBody.GetComponent<Renderer>();
+        int randomIndex = Random.Range(0, colors.Length);
+
+        // Set the material's color to the randomly chosen color
+        renderer.material.color = colors[randomIndex];
+    }
+
 }

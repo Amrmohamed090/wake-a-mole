@@ -23,6 +23,4 @@ public class hammer : MonoBehaviour
         transform.position = m_MainCamera.ScreenToWorldPoint(mousePos);
         
     }
-
-   
 }

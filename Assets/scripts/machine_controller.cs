@@ -13,10 +13,10 @@ public class machine_controller : MonoBehaviour
     [SerializeField] private float maxNumberOfMoles = 3;
     private bool active = false;
     
-   public int[] chosen_mole_array = {0,0,0,0,0,0,0,0,0};
+    public int[] chosen_mole_array = {0,0,0,0,0,0,0,0,0};
     void Start()
     {
-     up_down_timer = default_up_down_time;
+        up_down_timer = default_up_down_time;
     }
 
     // Update is called once per frame
@@ -26,10 +26,8 @@ public class machine_controller : MonoBehaviour
         
         if (up_down_timer <= 0.0f)
         { //timer is up
-        
-        up_down_timer = 2.0f;
-        timerEnded();
-
+            up_down_timer = 2.0f;
+            timerEnded();
         }
         
     }
@@ -55,12 +53,12 @@ public class machine_controller : MonoBehaviour
             chosen_mole_array[random.Next(0, 10)] = 1;
         }
 
-        }
+    }
 
     
     
     void timerEnded()
-        {
+    {
             // if it was active-> reset the moles to zero
             // if it was not active -> addOnes to the array
             //chose_a_mole
@@ -75,9 +73,7 @@ public class machine_controller : MonoBehaviour
                 AddOnesWithProbability();
                 active = true;
             }
-            
-            
-        }
+    }
     public void a_mole_got_hit(int index){
         chosen_mole_array[index] = 0;   
     }

@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 
 public class singlemole : MonoBehaviour
 {
@@ -27,6 +28,11 @@ public class singlemole : MonoBehaviour
     private Color currentColor;
 
 
+    public static bool start = false;
+
+    [SerializeField]
+    public Button startButton;
+
     [SerializeField] private float speed = .5f; //speed where the moles go up and down
   
     void Start()
@@ -40,8 +46,10 @@ public class singlemole : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move();
-
+        if (start)
+        {
+            Move();
+        }
     }
 
     void Move(){
@@ -64,9 +72,10 @@ public class singlemole : MonoBehaviour
             if (!got_hit_bool && currentColor != colors[2])
             {
                 if (SceneManager.GetActiveScene().buildIndex == 1)
-                    //lostFlag = true;
+                lostFlag = true;
                 transform.Translate(0, -Time.deltaTime * speed, 0);
-                
+                singlemole.start = true;
+                startButton.gameObject.SetActive(true);
             }
             else {
                 transform.Translate(0, -Time.deltaTime * speed * 2, 0);
@@ -82,8 +91,8 @@ public class singlemole : MonoBehaviour
 
     public void Lost()
     {
-
-        // Handling the lost condition
+        singlemole.start = true;
+        startButton.gameObject.SetActive(true);
     }
 
     private void HandelHit()
@@ -109,7 +118,9 @@ public class singlemole : MonoBehaviour
             }
             else
             {
-                //lostFlag = true;
+                lostFlag = true;
+                singlemole.start = true;
+                startButton.gameObject.SetActive(true);
             }
 
         }
@@ -123,5 +134,4 @@ public class singlemole : MonoBehaviour
         // Set the material's color to the randomly chosen color
         renderer.material.color = colors[randomIndex];
     }
-
 }
